@@ -31,5 +31,5 @@
     msg: "Join command: {{ join_command }}"
   when: groups['master'][0] == inventory_hostname
 - name: Join Control Plane
-  command: "{{ hostvars[groups['master'][0]]['join_command'] }}"
+  command: "{{ hostvars[groups['master'][-1]]['join_command'] }}"
   when: groups['master'][0] != inventory_hostname
