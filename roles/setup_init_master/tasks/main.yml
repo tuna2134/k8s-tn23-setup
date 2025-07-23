@@ -13,6 +13,7 @@
   fetch:
     src: /etc/kubernetes/admin.conf
     dest: outputs
+  when: groups['master'][0] == inventory_hostname
 - name: Create kubeadm join command
   command: kubeadm token create --print-join-command --ttl=0
   when: groups['master'][0] == inventory_hostname
