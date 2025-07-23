@@ -3,6 +3,9 @@
   apt:
     name: ["haproxy", "keepalived"]
     update_cache: yes
+- name: Generate a new password for Keepalived
+  set_fact:
+    passwd: "{{ lookup('password', '/etc/keepalived/keepalived.passwd', length=16) }}"
 - name: Configure HAProxy
   template:
     src: haproxy.cfg.j2
@@ -14,10 +17,10 @@
 - name: Ensure HAProxy is running
   service:
     name: haproxy
-    state: started
+    state: restarted
     enabled: yes
 - name: Ensure Keepalived is running
   service:
     name: keepalived
-    state: started
+    state: restarted
     enabled: yes

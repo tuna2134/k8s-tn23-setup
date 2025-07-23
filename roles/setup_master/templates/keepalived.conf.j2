@@ -15,7 +15,7 @@ vrrp_instance Instance1 {
     advert_int 1
     authentication {
         auth_type PASS
-        auth_pass v4SevXnwLAxJ73qFx
+        auth_pass {{ passwd }}
     }
     unicast_src_ip {{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}
     unicast_peer {
