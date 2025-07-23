@@ -1,0 +1,12 @@
+frontend kube-api
+    bind *:6443
+    option tcplog
+    mode tcp
+    default_backend    k8s-api
+    
+backend k8s-api
+    mode tcp
+    balance    roundrobin
+    {% for master in groups['k8s_masters'] %}
+    server {{ master }} {{ hostvars[master]['ansible_default_ipv4']['address'] }}:6443
+    {% endfor %}

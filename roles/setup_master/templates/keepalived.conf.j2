@@ -1,0 +1,34 @@
+global_defs {
+}
+
+vrrp_script check_haproxy { 
+    script "killall -0 haproxy"
+    interval 2
+    weight 2
+}
+
+vrrp_instance Instance1 {
+    state {{ "MASTER" if groups['k8s_masters'][0] == inventory_hostname else "BACKUP" }}
+    interface eth0
+    virtual_router_id 10
+    priority 100
+    advert_int 1
+    authentication {
+        auth_type PASS
+        auth_pass v4SevXnwLAxJ73qFx
+    }
+    unicast_src_ip {{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}
+    unicast_peer {
+        {% for master in groups['k8s_masters'] %}
+        {% if master != inventory_hostname %}
+        {{ hostvars[master]['ansible_default_ipv4']['address'] }}
+        {% endif %}
+        {% endfor %}
+    }
+    virtual_ipaddress {
+        {{ master_ip }}
+    }
+    track_script {
+        check_haproxy 
+    }
+}

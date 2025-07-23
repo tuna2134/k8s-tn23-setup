@@ -1,5 +1,6 @@
 ---
-- hosts: first_master
+- name: Prepare master node
+  hosts: k8s_masters
   become: yes
   roles:
-    - setup_init_master
+    - setup_master
