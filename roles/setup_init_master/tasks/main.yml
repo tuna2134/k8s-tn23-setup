@@ -22,6 +22,7 @@
   copy:
     src: /etc/kubernetes/admin.conf
     dest: ~/.kube/config
+    remote_src: true
   when: groups['master'][0] == inventory_hostname
 - name: Install helm
   shell: curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
