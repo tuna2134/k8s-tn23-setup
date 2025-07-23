@@ -5,10 +5,18 @@
 - name: Copy kubeadm init config
   template:
     src: templates/init_kubelet.yaml.j2
-    dest: ~/init_kubelet.yaml
+    dest: /tmp/init_kubelet.yaml
 - name: Initialize kubeadm
-  command: kubeadm init --config=~/init_kubelet.yaml
+  command: kubeadm init --config=/tmp/init_kubelet.yaml
+  when: groups['master'][0] == inventory_hostname
 - name: Get kube admin config
   fetch:
     src: /etc/kubernetes/admin.conf
     dest: outputs
+- name: Create kubeadm join command
+  command: kubeadm token create --print-join-command --ttl=0
+  when: groups['master'][0] == inventory_hostname
+  register: kubeadm_join_command
+- name: Join Control Plane
+  command: "{{ kubeadm_join_command.stdout }} --control-plane"
+  when: groups['master'][0] != inventory_hostname

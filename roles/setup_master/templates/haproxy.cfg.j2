@@ -7,6 +7,6 @@ frontend kube-api
 backend k8s-api
     mode tcp
     balance    roundrobin
-    {% for master in groups['k8s_masters'] %}
+{% for master in groups['master'] %}
     server {{ master }} {{ hostvars[master]['ansible_default_ipv4']['address'] }}:6443
-    {% endfor %}
+{% endfor %}

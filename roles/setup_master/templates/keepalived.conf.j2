@@ -8,7 +8,7 @@ vrrp_script check_haproxy {
 }
 
 vrrp_instance Instance1 {
-    state {{ "MASTER" if groups['k8s_masters'][0] == inventory_hostname else "BACKUP" }}
+    state {{ "MASTER" if groups['master'][0] == inventory_hostname else "BACKUP" }}
     interface eth0
     virtual_router_id 10
     priority 100
@@ -19,7 +19,7 @@ vrrp_instance Instance1 {
     }
     unicast_src_ip {{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}
     unicast_peer {
-        {% for master in groups['k8s_masters'] %}
+        {% for master in groups['master'] %}
         {% if master != inventory_hostname %}
         {{ hostvars[master]['ansible_default_ipv4']['address'] }}
         {% endif %}

@@ -7,14 +7,10 @@
   template:
     src: haproxy.cfg.j2
     dest: /etc/haproxy/haproxy.cfg
-  notify:
-    - Restart HAProxy
 - name: Configure Keepalived
   template:
     src: keepalived.conf.j2
     dest: /etc/keepalived/keepalived.conf
-  notify:
-    - Restart Keepalived
 - name: Ensure HAProxy is running
   service:
     name: haproxy

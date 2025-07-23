@@ -4,3 +4,8 @@
   become: yes
   roles:
     - setup_master
+- name: Initialize master node
+  hosts: master
+  become: yes
+  roles:
+    - setup_init_master
