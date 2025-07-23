@@ -5,7 +5,7 @@
     update_cache: yes
 - name: Generate a new password for Keepalived
   set_fact:
-    passwd: "{{ lookup('password', '/etc/keepalived/keepalived.passwd', length=16) }}"
+    passwd: "{{ lookup('password', '/dev/null', length=16) }}"
 - name: Configure HAProxy
   template:
     src: haproxy.cfg.j2
