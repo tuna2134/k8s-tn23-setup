@@ -2,10 +2,12 @@
 - name: Create bootstrap token
   shell: "echo $(openssl rand -hex 3).$(openssl rand -hex 8)"
   register: bootstrap_token
+  when: groups['master'][0] == inventory_hostname
 - name: Copy kubeadm init config
   template:
     src: templates/init_kubelet.yaml.j2
     dest: /tmp/init_kubelet.yaml
+  when: groups['master'][0] == inventory_hostname
 - name: Initialize kubeadm
   command: kubeadm init --config=/tmp/init_kubelet.yaml --upload-certs
   when: groups['master'][0] == inventory_hostname
