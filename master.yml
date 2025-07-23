@@ -1,5 +1,5 @@
 ---
-- hosts: master
+- hosts: first_master
   become: yes
   roles:
-    - setup_master
+    - setup_init_master

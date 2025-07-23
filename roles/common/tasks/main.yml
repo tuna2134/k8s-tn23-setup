@@ -1,71 +1,70 @@
 ---
-tasks:
-  - name: Copy kernel module for containerd
-    copy:
-      src: etc/modules-load.d/containerd.conf
-      dest: /etc/modules-load.d/containerd.conf/
-      backup: true
-  - name: Apply overlay and br_netfilter module
-    modprobe:
-      name: "{{ item }}"
-      state: present
-    loop: [overlay, br_netfilter]
-  - name: Install dependencies (1)
-    apt:
-      name: ["ca-certificates", "curl", "gnupg", "lsb-release"]
-      update_cache: yes
-  - name: Create keyrings directory
-    file:
-      state: directory
-      path: /etc/apt/keyrings
-      mode: 0755
-  - name: Save docker keyring
-    apt_key:
-      url: https://download.docker.com/linux/ubuntu/gpg
-      keyring: /etc/apt/keyrings/docker.gpg
-  - name: Set dpkg arch
-    set_fact:
-      dpkg_arch: "{{ 'amd64' if ansible_architecture == 'x86_64' else ansible_architecture }}"
-  - name: Add docker to apt-repository
-    apt_repository:
-      repo: "deb [arch={{ dpkg_arch }} signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable"
-  - name: Install dependencies (2)
-    apt:
-      name: containerd.io
-      update_cache: yes
-  - name: Create containerd directory
-    file:
-      state: directory
-      path: /etc/containerd
-  - name: Copy containerd config
-    copy:
-      src: etc/containerd/config.toml
-      dest: /etc/containerd/config.toml
-      backup: true
-  - name: Restart containerd
-    systemd_service:
-      name: containerd
-      state: restarted
-  - name: Copy sysctl k8s conf
-    copy:
-      src: etc/sysctl.d/k8s.conf
-      dest: /etc/sysctl.d/k8s.conf
-      backup: true
-  - name: Apply k8s sysctl
-    command: sysctl --system
-  - name: Add k8s apt keyring
-    apt_key:
-      url: https://pkgs.k8s.io/core:/stable:/{{ k8s_version }}/deb/Release.key
-      keyring: /etc/apt/keyrings/kubernetes-apt-keyring.gpg
-  - name: Add k8s to apt repository
-    apt_repository:
-      repo: "deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.32/deb/ /"
-  - name: Install dependencies (3)
-    apt:
-      name: ["kubelet", "kubeadm", "kubectl"]
-      update_cache: yes
-  - name: Hold k8s
-    dpkg_selections:
-      name: "{{ item }}"
-      selection: hold
-    loop: ["kubelet", "kubeadm", "kubectl"]
+- name: Copy kernel module for containerd
+  copy:
+    src: etc/modules-load.d/containerd.conf
+    dest: /etc/modules-load.d/containerd.conf/
+    backup: true
+- name: Apply overlay and br_netfilter module
+  modprobe:
+    name: "{{ item }}"
+    state: present
+  loop: [overlay, br_netfilter]
+- name: Install dependencies (1)
+  apt:
+    name: ["ca-certificates", "curl", "gnupg", "lsb-release"]
+    update_cache: yes
+- name: Create keyrings directory
+  file:
+    state: directory
+    path: /etc/apt/keyrings
+    mode: 0755
+- name: Save docker keyring
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    keyring: /etc/apt/keyrings/docker.gpg
+- name: Set dpkg arch
+  set_fact:
+    dpkg_arch: "{{ 'amd64' if ansible_architecture == 'x86_64' else ansible_architecture }}"
+- name: Add docker to apt-repository
+  apt_repository:
+    repo: "deb [arch={{ dpkg_arch }} signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable"
+- name: Install dependencies (2)
+  apt:
+    name: containerd.io
+    update_cache: yes
+- name: Create containerd directory
+  file:
+    state: directory
+    path: /etc/containerd
+- name: Copy containerd config
+  copy:
+    src: etc/containerd/config.toml
+    dest: /etc/containerd/config.toml
+    backup: true
+- name: Restart containerd
+  systemd_service:
+    name: containerd
+    state: restarted
+- name: Copy sysctl k8s conf
+  copy:
+    src: etc/sysctl.d/k8s.conf
+    dest: /etc/sysctl.d/k8s.conf
+    backup: true
+- name: Apply k8s sysctl
+  command: sysctl --system
+- name: Add k8s apt keyring
+  apt_key:
+    url: https://pkgs.k8s.io/core:/stable:/{{ k8s_version }}/deb/Release.key
+    keyring: /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+- name: Add k8s to apt repository
+  apt_repository:
+    repo: "deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.32/deb/ /"
+- name: Install dependencies (3)
+  apt:
+    name: ["kubelet", "kubeadm", "kubectl"]
+    update_cache: yes
+- name: Hold k8s
+  dpkg_selections:
+    name: "{{ item }}"
+    selection: hold
+  loop: ["kubelet", "kubeadm", "kubectl"]
