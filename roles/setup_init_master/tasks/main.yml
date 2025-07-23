@@ -11,11 +11,32 @@
 - name: Initialize kubeadm
   command: kubeadm init --config=/tmp/init_kubelet.yaml --upload-certs
   when: groups['master'][0] == inventory_hostname
+
 - name: Get kube admin config
   fetch:
     src: /etc/kubernetes/admin.conf
     dest: outputs
   when: groups['master'][0] == inventory_hostname
+
+- name: Make directory for .kube
+  copy:
+    src: /etc/kubernetes/admin.conf
+    dest: ~/.kube/config
+  when: groups['master'][0] == inventory_hostname
+- name: Install helm
+  shell: curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
+  when: groups['master'][0] == inventory_hostname
+- name: Add helm repo
+  command: helm repo add cilium https://helm.cilium.io/
+  when: groups['master'][0] == inventory_hostname
+- name: Install Cilium
+  kubernetes.core.helm:
+    name: cilium
+    chart_ref: cilium/cilium
+    release_namespace: kube-system
+    create_namespace: true
+  when: groups['master'][0] == inventory_hostname
+
 - name: Generate certificate key
   command: kubeadm init phase upload-certs --upload-certs
   register: cert_key
