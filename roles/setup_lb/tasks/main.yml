@@ -6,6 +6,7 @@
 - name: Generate a new password for Keepalived
   set_fact:
     passwd: "{{ lookup('password', '/dev/null', length=16) }}"
+  run_once: true
 - name: Configure HAProxy
   template:
     src: haproxy.cfg.j2
