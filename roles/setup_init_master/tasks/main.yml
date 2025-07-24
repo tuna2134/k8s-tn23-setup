@@ -44,6 +44,7 @@
     dest: outputs/kubeadm_join_command.sh
   become: false
   delegate_to: localhost
+  when: groups['master'][0] == inventory_hostname
 - name: Set fact Join command
   set_fact:
     join_command: "{{ join_command.stdout }} --control-plane --certificate-key {{ cert_key.stdout_lines[-1] }}"
