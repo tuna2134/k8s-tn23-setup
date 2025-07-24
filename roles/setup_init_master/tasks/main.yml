@@ -9,7 +9,7 @@
     dest: /tmp/init_kubelet.yaml
   when: groups['master'][0] == inventory_hostname
 - name: Initialize kubeadm
-  command: kubeadm init --control-plane-endpoint={{ master_ip }}:16443 --upload-certs --pod-network-cidr=10.0.0.0/16
+  command: kubeadm init --upload-certs --config=/tmp/init_kubelet.yaml
   when: groups['master'][0] == inventory_hostname
 
 - name: Get kube admin config
