@@ -36,11 +36,15 @@
   file:
     state: directory
     path: /etc/containerd
-- name: Copy containerd config
-  copy:
-    src: etc/containerd/config.toml
-    dest: /etc/containerd/config.toml
-    backup: true
+- name: Create containerd config
+  command: containerd config default | tee /etc/containerd/config.toml
+- name: Fix config
+  shell: |
+    if grep -q "SystemdCgroup = true" "/etc/containerd/config.toml"; then
+      echo "Config found, skip rewriting..."
+    else
+      sed -i -e "s/SystemdCgroup \= false/SystemdCgroup \= true/g" /etc/containerd/config.toml
+    fi
 - name: Restart containerd
   systemd_service:
     name: containerd
