@@ -1,5 +1,7 @@
 ---
-- name: Initialize Kubernetes node
-  import_playbook: common.yml
+- name: Setup Load Balancer
+  import_playbook: lb.yml
+- name: Setup k8s environment
+  import_playbook: setup_k8s_env.yml
 - name: Setup master node
   import_playbook: master.yml
