@@ -12,3 +12,6 @@ second_master ansible_host=172.16.55.102 ansible_user=ubuntu
 third_master ansible_host=172.16.55.103 ansible_user=ubuntu
 
 [worker]
+first_worker ansible_host=172.16.55.106 ansible_user=ubuntu
+second_worker ansible_host=172.16.55.107 ansible_user=ubuntu
+third_worker ansible_host=172.16.55.108 ansible_user=ubuntu
