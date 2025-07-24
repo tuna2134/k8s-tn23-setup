@@ -1,0 +1,14 @@
+---
+- name: Install helm
+  shell: curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
+  when: groups['master'][0] == inventory_hostname
+- name: Add helm repo
+  command: helm repo add cilium https://helm.cilium.io/
+  when: groups['master'][0] == inventory_hostname
+- name: Install Cilium
+  kubernetes.core.helm:
+    name: cilium
+    chart_ref: cilium/cilium
+    release_namespace: kube-system
+    create_namespace: true
+  when: groups['master'][0] == inventory_hostname

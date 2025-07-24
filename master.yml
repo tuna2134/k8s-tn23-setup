@@ -2,11 +2,11 @@
 - name: Initialize master node
   hosts: master
   become: yes
-  roles:
-    - setup_init_master
-- name: Initialize master node (2)
-  hosts: master
-  become: yes
   serial: 1
   roles:
-    - setup_master_2
+    - setup_init_master
+- name: Setup k8s plugins
+  hosts: master
+  become: yes
+  roles:
+    - setup_k8s_plugins
