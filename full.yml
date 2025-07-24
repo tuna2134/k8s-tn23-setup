@@ -5,3 +5,5 @@
   import_playbook: setup_k8s_env.yml
 - name: Setup master node
   import_playbook: master.yml
+- name: Setup worker nodes
+  import_playbook: worker.yml

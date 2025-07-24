@@ -1,0 +1,7 @@
+---
+- name: Copy k8s join command
+  copy:
+    src: ./outputs/kubeadm_join_command.sh
+    dest: /tmp/kubeadm_join_command.sh
+- name: Run k8s join command
+  command: bash /tmp/kubeadm_join_command.sh
