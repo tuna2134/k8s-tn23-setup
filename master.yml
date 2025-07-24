@@ -9,3 +9,9 @@
   become: yes
   roles:
     - setup_init_master
+- name: Initialize master node (2)
+  hosts: master
+  become: yes
+  serial: 1
+  roles:
+    - setup_master_2

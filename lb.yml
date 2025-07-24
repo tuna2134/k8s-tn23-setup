@@ -1,0 +1,6 @@
+---
+- name: Prepare Load Balancer
+  hosts: lb
+  become: yes
+  roles:
+    - setup_lb
