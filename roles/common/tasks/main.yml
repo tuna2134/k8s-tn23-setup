@@ -58,7 +58,7 @@
     keyring: /etc/apt/keyrings/kubernetes-apt-keyring.gpg
 - name: Add k8s to apt repository
   apt_repository:
-    repo: "deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.32/deb/ /"
+    repo: "deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/{{ k8s_version }}/deb/ /"
 - name: Install dependencies (3)
   apt:
     name: ["kubelet", "kubeadm", "kubectl"]
