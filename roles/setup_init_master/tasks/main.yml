@@ -42,6 +42,7 @@
   copy:
     content: "{{ join_command.stdout }}"
     dest: outputs/kubeadm_join_command.sh
+  become: false
   delegate_to: localhost
 - name: Set fact Join command
   set_fact:
