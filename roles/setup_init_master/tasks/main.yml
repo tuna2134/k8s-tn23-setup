@@ -9,7 +9,7 @@
     dest: /tmp/init_kubelet.yaml
   when: groups['master'][0] == inventory_hostname
 - name: Initialize kubeadm
-  command: kubeadm init --config=/tmp/init_kubelet.yaml --upload-certs
+  command: kubeadm init --control-plane-endpoint={{ master_ip }}:6443 --upload-certs --pod-network-cidr=10.0.0.0/16
   when: groups['master'][0] == inventory_hostname
 
 - name: Get kube admin config
@@ -18,6 +18,11 @@
     dest: outputs
   when: groups['master'][0] == inventory_hostname
 
+- name: Create keyrings directory
+  file:
+    state: directory
+    path: ~/.kube
+    mode: 0755
 - name: Make directory for .kube
   copy:
     src: /etc/kubernetes/admin.conf
