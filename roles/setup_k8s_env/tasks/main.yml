@@ -38,7 +38,7 @@
     path: /etc/containerd
 - name: Generate containerd config
   command: containerd config default
-  registry: containerd_config
+  register: containerd_config
 - name: Save containerd config
   copy:
     content: "{{ containerd_config.stdout }}"
