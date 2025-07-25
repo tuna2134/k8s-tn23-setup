@@ -2,7 +2,6 @@
 - name: Initialize master node
   hosts: master
   become: yes
-  serial: 1
   roles:
     - setup_init_master
 - name: Setup k8s plugins
