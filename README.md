@@ -8,6 +8,11 @@ uv sync
 ```
 
 ## メインのセットアップ
+利用する前に
+```
+source .venv/bin/activate
+```
+を実行すること。
 
 ### 1. inventory/hostsを編集
 ここには設定対象のワーカー、マスターそしてロードバランサーが設置されています。
@@ -18,3 +23,9 @@ uv sync
 
 ### 3. inventory/group_vars/all/version.ymlを編集
 k8sのバージョンをここで指定してください。
+
+### 4. 実行
+```
+ansible-playbook -i inventory full.yml
+```
+これで自動的にセットアップしてくれます。
