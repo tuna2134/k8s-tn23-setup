@@ -1,17 +1,17 @@
 [lb]
-first_lb ansible_host=172.16.55.104 ansible_user=ubuntu
-second_lb ansible_host=172.16.55.105 ansible_user=ubuntu
+first_lb ansible_host=172.16.100.1 ansible_user=ubuntu
+second_lb ansible_host=172.16.100.2 ansible_user=ubuntu
 
 [k8s:children]
 master
 worker
 
 [master]
-first_master ansible_host=172.16.55.101 ansible_user=ubuntu
-second_master ansible_host=172.16.55.102 ansible_user=ubuntu
-third_master ansible_host=172.16.55.103 ansible_user=ubuntu
+first_master ansible_host=172.16.101.1 ansible_user=ubuntu
+second_master ansible_host=172.16.101.2 ansible_user=ubuntu
+third_master ansible_host=172.16.101.3 ansible_user=ubuntu
 
 [worker]
-first_worker ansible_host=172.16.55.106 ansible_user=ubuntu
-second_worker ansible_host=172.16.55.107 ansible_user=ubuntu
-third_worker ansible_host=172.16.55.108 ansible_user=ubuntu
+first_worker ansible_host=172.16.101.4 ansible_user=ubuntu
+second_worker ansible_host=172.16.101.5 ansible_user=ubuntu
+third_worker ansible_host=172.16.101.6 ansible_user=ubuntu
