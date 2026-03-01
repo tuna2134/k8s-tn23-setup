@@ -7,11 +7,11 @@ master
 worker
 
 [master]
-first_master ansible_host=172.16.101.1 ansible_user=ubuntu
-second_master ansible_host=172.16.101.2 ansible_user=ubuntu
-third_master ansible_host=172.16.101.3 ansible_user=ubuntu
+first_master ansible_host=172.16.99.3 ansible_user=ubuntu
+second_master ansible_host=172.16.99.4 ansible_user=ubuntu
+third_master ansible_host=172.16.99.5 ansible_user=ubuntu
 
 [worker]
-first_worker ansible_host=172.16.101.4 ansible_user=ubuntu
-second_worker ansible_host=172.16.101.5 ansible_user=ubuntu
-third_worker ansible_host=172.16.101.6 ansible_user=ubuntu
+first_worker ansible_host=172.16.99.6 ansible_user=ubuntu
+second_worker ansible_host=172.16.99.7 ansible_user=ubuntu
+third_worker ansible_host=172.16.99.8 ansible_user=ubuntu
