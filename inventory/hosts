@@ -1,6 +1,6 @@
 [lb]
-first_lb ansible_host=172.16.100.1 ansible_user=ubuntu
-second_lb ansible_host=172.16.100.2 ansible_user=ubuntu
+first_lb ansible_host=172.16.99.1 ansible_user=ubuntu
+second_lb ansible_host=172.16.99.2 ansible_user=ubuntu
 
 [k8s:children]
 master
